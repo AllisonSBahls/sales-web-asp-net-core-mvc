@@ -1,16 +1,21 @@
 ﻿@model IEnumerable<SalesWebMVC.Models.Seller>
 @{
-    ViewData["Title"] = "Sellers";
+    ViewData["Title"] = "Vendedores";
 }
 
 <h2>@ViewData["Title"]</h2>
+
+<p>
+    <a asp-action="Create" class="btn btn-success"> Cadastrar Vendedor</a>
+</p>
 
 <table class="table table-striped table-hover">
     <thead>
         <tr class="info">
             <th>
                 @*Recurso do framework para chamar os Name*@
-                @Html.DisplayNameFor(model => model.Name)
+                @*@Html.DisplayNameFor(model => model.Name)*@
+                Nome
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Email)
@@ -21,11 +26,15 @@
             <th>
                 @Html.DisplayNameFor(model => model.BaseSalary)
             </th>
+
             <th>
+                @*Editar*@
             </th>
             <th>
+                @*Detalhes*@
             </th>
             <th>
+                @*Deletar*@
             </th>
 
         </tr>
@@ -33,33 +42,33 @@
     <tbody>
         @foreach (var item in Model)
         {
-        <tr>
-            <td>
-                @*Recurso do framework para chamar os dados*@
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @*Recurso do framework para chamar os dados*@
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                @*Recurso do framework para chamar os dados*@
-                @Html.DisplayFor(modelItem => item.BirthDate)
-            </td>
-            <td>
-                @*Recurso do framework para chamar os dados*@
-                @Html.DisplayFor(modelItem => item.BaseSalary)
-            </td>
-            <td>
-                <a asp-actions="Edit" asp-route-ids="@item.Id">Editar</a>
-            </td>
-            <td>
-                <a asp-actions="Details" asp-route-ids="@item.Id">Detalhes</a>
-            </td>
-            <td>
-                <a asp-actions="Delete" asp-route-ids="@item.Id">Deletar</a>
-            </td>
-        </tr>
+            <tr>
+                <td>
+                    @*Recurso do framework para chamar os dados*@
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @*Recurso do framework para chamar os dados*@
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @*Recurso do framework para chamar os dados*@
+                    @Html.DisplayFor(modelItem => item.BirthDate)
+                </td>
+                <td>
+                    @*Recurso do framework para chamar os dados*@
+                    @Html.DisplayFor(modelItem => item.BaseSalary)
+                </td>
+                <td>
+                    <a asp-actions="Edit" asp-route-ids="@item.Id">Editar</a>
+                </td>
+                <td>
+                    <a asp-actions="Details" asp-route-ids="@item.Id">Detalhes</a>
+                </td>
+                <td>
+                    <a asp-actions="Delete" asp-route-ids="@item.Id">Deletar</a>
+                </td>
+            </tr>
         }
     </tbody>
 </table>

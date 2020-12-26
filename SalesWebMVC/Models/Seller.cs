@@ -47,5 +47,7 @@ namespace SalesWebMVC.Models
             //Filtrando usando o LINQ de acordo com a data final e inicial e somando apenas o que foi vendido
             return Sales.Where(sr => sr.Date >= initial && sr.Date <= final).Sum(sr => sr.Amount);
         }
+
+       
     }
 }

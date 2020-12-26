@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using SalesWebMVC.Services;
+using SalesWebMVC.Models;
 namespace SalesWebMVC.Controllers
 {
     public class SellersController : Controller
@@ -24,6 +25,24 @@ namespace SalesWebMVC.Controllers
             
             //Encaminhando a list das informações para a view
             return View(list);
+        }
+
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        //Indicar que a ação é POST e não GET
+        [HttpPost]
+        //Previnir que a aplicação sofra ataques XSRF/CSRF
+        [ValidateAntiForgeryToken]
+        public IActionResult Create(Seller seller)
+        {
+            _sellerService.Insert(seller);
+
+            //Redirecionar
+            //return RedirectToAction("Index");
+            return RedirectToAction(nameof(Index));
         }
     }
 }
