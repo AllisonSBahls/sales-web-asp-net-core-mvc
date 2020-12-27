@@ -79,5 +79,24 @@ namespace SalesWebMVC.Controllers
             _sellerService.Remove(id);
             return RedirectToAction(nameof(Index));
         }
+
+        public IActionResult Details(int id) //? Indica que é opcional
+        {
+            //Caso é feita uma busca indevida(tipo digitando diretamente na url
+            if (id == null)
+            {
+                //Se ele entrar nesse if a aplicação é cortada automaticamente por conta do return
+                //Dessa forma o else não é obrigatório
+                return NotFound();
+            }
+            //Por id ser opcional é necessario o Value
+            var obj = _sellerService.FindById(id);
+            if (obj == null)
+            {
+                return NotFound();
+            }
+
+            return View(obj);
+        }
     }
 }
