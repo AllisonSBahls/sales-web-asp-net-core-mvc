@@ -25,18 +25,18 @@ namespace SalesWebMVC.Controllers
 
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             //Pegando os dados do service
-            var list = _sellerService.FindAll();
+            var list = await _sellerService.FindAllAsync();
 
             //Encaminhando a list das informações para a view
             return View(list);
         }
 
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            var departments = _departmentService.FindAll();
+            var departments = await _departmentService.FindAllAsync();
             var viewModel = new SellerFormViewModel { Departments = departments };
             return View(viewModel);
         }
@@ -45,16 +45,16 @@ namespace SalesWebMVC.Controllers
         [HttpPost]
         //Previnir que a aplicação sofra ataques XSRF/CSRF
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Seller seller)
+        public async Task<IActionResult> Create(Seller seller)
         {
             //Verificação por parte do servidor para verificar se os campos foram preenchidos, caso a opção de javascript esteja desabilitado
             if (!ModelState.IsValid)
             {
-                var departaments = _departmentService.FindAll();
+                var departaments = await _departmentService.FindAllAsync();
                 var viewModel = new SellerFormViewModel { Seller = seller, Departments = departaments };
                 return View(viewModel);
             }
-            _sellerService.Insert(seller);
+            await _sellerService.InsertAsync(seller);
 
             //Redirecionar
             //return RedirectToAction("Index");
@@ -62,7 +62,7 @@ namespace SalesWebMVC.Controllers
         }
 
         //Tela para confirmação
-        public IActionResult Delete(int? id) //? Indica que é opcional
+        public async Task<IActionResult> Delete(int? id) //? Indica que é opcional
         {
             //Caso é feita uma busca indevida(tipo digitando diretamente na url
             if (id == null)
@@ -72,7 +72,7 @@ namespace SalesWebMVC.Controllers
                 return RedirectToAction(nameof(Error), new { message = "Id not provided" });
             }
             //Por id ser opcional é necessario o Value
-            var obj = _sellerService.FindById(id.Value);
+            var obj =await _sellerService.FindByIdAsync(id.Value);
             if (obj == null)
             {
                 return RedirectToAction(nameof(Error), new { message = "Id not found" });
@@ -83,13 +83,13 @@ namespace SalesWebMVC.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            _sellerService.Remove(id);
+            await _sellerService.RemoveAsync(id);
             return RedirectToAction(nameof(Index));
         }
 
-        public IActionResult Details(int? id) //? Indica que é opcional
+        public async Task<IActionResult> Details(int? id) //? Indica que é opcional
         {
             //Caso é feita uma busca indevida(tipo digitando diretamente na url
             if (id == null)
@@ -99,7 +99,7 @@ namespace SalesWebMVC.Controllers
                 return RedirectToAction(nameof(Error), new { message = "Id not provided" });
             }
             //Por id ser opcional é necessario o Value
-            var obj = _sellerService.FindById(id.Value);
+            var obj = await _sellerService.FindByIdAsync(id.Value);
             if (obj == null)
             {
                 return RedirectToAction(nameof(Error), new { message = "Id not found" });
@@ -109,21 +109,21 @@ namespace SalesWebMVC.Controllers
         }
 
         //Abrir o formulario de edição
-        public IActionResult Edit(int? id)
+        public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
             {
                 return RedirectToAction(nameof(Error), new { message = "Id not provided" });
             }
 
-            var obj = _sellerService.FindById(id.Value);
+            var obj = await _sellerService.FindByIdAsync(id.Value);
 
             if (obj == null)
             {
                 return RedirectToAction(nameof(Error), new { message = "Id not found" });
             }
             //Carregar a lista de departamento para povoar a Combobox
-            List<Department> departments = _departmentService.FindAll();
+            List<Department> departments = await _departmentService.FindAllAsync();
             SellerFormViewModel viewModel = new SellerFormViewModel { Seller = obj, Departments = departments };
 
             return View(viewModel);
@@ -131,11 +131,11 @@ namespace SalesWebMVC.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(int id, Seller seller)
+        public async Task<IActionResult> Edit(int id, Seller seller)
         {
             if (!ModelState.IsValid)
             {
-                var departaments = _departmentService.FindAll();
+                var departaments = await _departmentService.FindAllAsync();
                 var viewModel = new SellerFormViewModel { Seller = seller, Departments = departaments };
                 return View(viewModel);
             }
@@ -145,7 +145,7 @@ namespace SalesWebMVC.Controllers
             }
             try
             {
-                _sellerService.Update(seller);
+                await _sellerService.UpdateAsync(seller);
                 return RedirectToAction(nameof(Index));
             }
             catch (ApplicationException e)

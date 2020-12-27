@@ -2,7 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 namespace SalesWebMVC.Services
 {
     public class DepartmentService
@@ -15,10 +16,10 @@ namespace SalesWebMVC.Services
         }
 
         //Criado para popular os selects
-        public List<Department> FindAll()
+        public async Task<List<Department>> FindAllAsync() //Async é uma recomendação para assincrona
         {
             //Retornar departamentos ordenados
-            return _context.Department.OrderBy(d => d.Name).ToList();
+            return await _context.Department.OrderBy(d => d.Name).ToListAsync();
         }
     }
 }
