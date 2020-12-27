@@ -28,13 +28,7 @@
             </th>
 
             <th>
-                @*Editar*@
-            </th>
-            <th>
-                @*Detalhes*@
-            </th>
-            <th>
-                @*Deletar*@
+                @*Ações*@
             </th>
 
         </tr>
@@ -60,13 +54,11 @@
                     @Html.DisplayFor(modelItem => item.BaseSalary)
                 </td>
                 <td>
-                    <a asp-actions="Edit" asp-route-ids="@item.Id">Editar</a>
-                </td>
-                <td>
-                    <a asp-actions="Details" asp-route-ids="@item.Id">Detalhes</a>
-                </td>
-                <td>
-                    <a asp-actions="Delete" asp-route-ids="@item.Id">Deletar</a>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Editar</a>
+         
+                    <a asp-action="Details" asp-route-id="@item.Id">Detalhes</a>
+         
+                    <a asp-action="Delete" asp-route-id="@item.Id">Deletar</a>
                 </td>
             </tr>
         }
