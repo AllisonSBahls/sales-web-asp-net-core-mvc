@@ -11,8 +11,10 @@ namespace SalesWebMVC.Models
         public string Email { get; set; }
         public DateTime BirthDate { get; set; }
         public double BaseSalary { get; set; }
-
         public Department Department { get; set; }
+
+        //Avisando para o framework a FK DepartmentId terá que existir
+        public int DepartmentId { get; set; }
 
         //Colection Generic
         public ICollection<SalesRecord> Sales { get; set; } = new List<SalesRecord>();
