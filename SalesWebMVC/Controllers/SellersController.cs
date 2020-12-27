@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using SalesWebMVC.Services;
 using SalesWebMVC.Models;
 using SalesWebMVC.Models.ViewModels;
+using SalesWebMVC.Services.Exceptions;
 
 namespace SalesWebMVC.Controllers
 {
@@ -27,7 +28,7 @@ namespace SalesWebMVC.Controllers
         {
             //Pegando os dados do service
             var list = _sellerService.FindAll();
-            
+
             //Encaminhando a list das informações para a view
             return View(list);
         }
@@ -56,15 +57,15 @@ namespace SalesWebMVC.Controllers
         public IActionResult Delete(int? id) //? Indica que é opcional
         {
             //Caso é feita uma busca indevida(tipo digitando diretamente na url
-            if(id == null)
+            if (id == null)
             {
                 //Se ele entrar nesse if a aplicação é cortada automaticamente por conta do return
                 //Dessa forma o else não é obrigatório
                 return NotFound();
             }
             //Por id ser opcional é necessario o Value
-           var obj = _sellerService.FindById(id.Value);
-            if(obj == null)
+            var obj = _sellerService.FindById(id.Value);
+            if (obj == null)
             {
                 return NotFound();
             }
@@ -97,6 +98,51 @@ namespace SalesWebMVC.Controllers
             }
 
             return View(obj);
+        }
+
+        //Abrir o formulario de edição
+        public IActionResult Edit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var obj = _sellerService.FindById(id.Value);
+
+            if (obj == null)
+            {
+                return NotFound();
+            }
+            //Carregar a lista de departamento para povoar a Combobox
+            List<Department> departments = _departmentService.FindAll();
+            SellerFormViewModel viewModel = new SellerFormViewModel { Seller = obj, Departments = departments };
+
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(int id, Seller seller)
+        {
+            if (id != seller.Id)
+            {
+                return BadRequest();
+            }
+            try
+            {
+                _sellerService.Update(seller);
+                return RedirectToAction(nameof(Index));
+            }
+            catch (NotFoundException)
+            {
+
+                return NotFound();
+            }
+            catch (DbConcurrencyException)
+            {
+                return BadRequest();
+            }
         }
     }
 }

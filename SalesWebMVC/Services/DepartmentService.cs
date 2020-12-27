@@ -14,6 +14,7 @@ namespace SalesWebMVC.Services
             _context = context;
         }
 
+        //Criado para popular os selects
         public List<Department> FindAll()
         {
             //Retornar departamentos ordenados
