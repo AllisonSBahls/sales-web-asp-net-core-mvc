@@ -10,23 +10,30 @@ namespace SalesWebMVC.Models
         public int Id { get; set; }
 
         [Display(Name = "Nome")]
+        [Required(ErrorMessage = "{0} Obrigatório")]
+        //Chave {0} pega altomaticamente o NOME do atributo, Minimo {1}, Máximo {2}.
+        [StringLength(60, MinimumLength = 3, ErrorMessage = "{0} O tamanho do nome deve ser entre {2} e {1}")]
         public string Name { get; set; }
 
         [Display(Name = "E-mail")]
+        [Required(ErrorMessage = "{0} Obrigatório")]
+        [EmailAddress(ErrorMessage = "E-mail inválido")]
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
 
         [Display(Name = "Data de Nascimento")]
+        [Required(ErrorMessage = "{0} Obrigatório")]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime BirthDate { get; set; }
 
+        [Required(ErrorMessage = "{0} Obrigatório")]
+        [Range(100.0, 50000.0, ErrorMessage = "{0} O salário deve ser entre {1} e {2}")]
         [Display(Name = "Salário Base")]
         [DisplayFormat(DataFormatString = "{0:F2}")]
         public double BaseSalary { get; set; }
 
         public Department Department { get; set; }
-
 
         //Avisando para o framework a FK DepartmentId terá que existir
         [Display(Name = "Departamento")]
