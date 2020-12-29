@@ -33,6 +33,7 @@ namespace SalesWebMVC.Models
         [DisplayFormat(DataFormatString = "{0:F2}")]
         public double BaseSalary { get; set; }
 
+        [Display(Name = "Departamento")]
         public Department Department { get; set; }
 
         //Avisando para o framework a FK DepartmentId terá que existir

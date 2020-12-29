@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace SalesWebMVC.Models
 {
@@ -8,7 +9,9 @@ namespace SalesWebMVC.Models
     {
         //Basic Attributes
         public int Id { get; set; }
+        [Display(Name = "Departamento")]
         public string Name { get; set; }
+
         //Icolleciton é genecito que aceita list, hash entre outros
         //Association
         public ICollection<Seller> Sellers { get; set; } = new List<Seller>();
